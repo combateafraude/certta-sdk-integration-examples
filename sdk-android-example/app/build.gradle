@@ -29,8 +29,7 @@ android {
 }
 
 dependencies {
-    implementation platform('io.caf.sdk:caf-sdk-bom:7.8.0')
-    // If you use Protobuf JavaLite, you should add that instead of the above dependency
+    implementation platform('io.caf.sdk:caf-sdk-bom:7.5.4')
     implementation 'io.caf.sdk:caffaceliveness-lite'
 
     implementation libs.appcompat

@@ -1,6 +1,7 @@
 package io.certta.sdk.example;
 
-import static io.caf.sdk.caffaceliveness.extension.CafSdkConfigurationExtKt.setFaceLivenessConfig;
+
+import static io.caf.sdk.caffaceliveness.CafFaceLivenessBuilderExtKt.setFaceLivenessConfig;
 
 import android.util.Log;
 
@@ -18,12 +19,19 @@ import io.caf.sdk.commons.CafUnifiedEvent;
 import io.caf.sdk.commons.CafUnifiedResponse;
 import kotlin.Unit;
 
+interface SdkExampleResultListener {
+    void onResult(CafUnifiedEvent event);
+}
+
 public class SdkExampleConfig {
     private final String TAG = "CerttaSdkEvent";
     String appKey;
+    SdkExampleResultListener resultListener;
 
-    SdkExampleConfig(String appKey) {
+
+    SdkExampleConfig(String appKey, SdkExampleResultListener listener) {
         this.appKey = appKey;
+        this.resultListener = listener;
     }
 
     public CafSdkProvider buildLiveness() {
@@ -32,8 +40,8 @@ public class SdkExampleConfig {
                 /*colorConfig*/ null,
                 /*nextStepContent*/ null,
                 /*waitForAllServices*/ true,
-                /*enableTransitionScreens*/ true,
-                /*enableSecurityModule*/ false
+                /*enableTransitionScreens*/ true
+//                /*enableSecurityModule*/ false
         );
 
         CafFaceLivenessConfig cafFaceLivenessConfig = new CafFaceLivenessConfig(
@@ -54,6 +62,7 @@ public class SdkExampleConfig {
                 /*environment*/  CafEnvironment.PROD,   // Production environment
                 /*configuration*/  sdkConfiguration,    // Global configuration with module order and parameters
                 event -> {
+                    resultListener.onResult(event);
                     handleEvent(event);
                     return Unit.INSTANCE;
                 }  // Return of SDK events
@@ -96,7 +105,12 @@ public class SdkExampleConfig {
 
         List<String> mappedResponses = List.of();
         responses.forEach(item -> {
-            mappedResponses.add(item.getModuleName() + " " + item.getSignedResponse());
+            try {
+                mappedResponses.add(item.getModuleName() + " " + item.getSignedResponse());
+            } catch (Exception e) {
+                mappedResponses.add(e.getMessage());
+
+            }
         });
 
         showLog("Success: " + mappedResponses);

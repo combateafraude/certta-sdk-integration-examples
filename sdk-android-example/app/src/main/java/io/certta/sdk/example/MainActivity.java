@@ -2,6 +2,7 @@ package io.certta.sdk.example;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +10,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+import io.caf.sdk.commons.CafUnifiedEvent;
+
+public class MainActivity extends AppCompatActivity implements SdkExampleResultListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +25,18 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        SdkExampleConfig config = new SdkExampleConfig("");
+        SdkExampleConfig config = new SdkExampleConfig("", this);
 
         Button button = findViewById(R.id.startSdkButton);
+
         button.setOnClickListener(view -> {
             config.buildLiveness().start(this.getApplicationContext());
         });
+    }
+
+    @Override
+    public void onResult(CafUnifiedEvent event) {
+        TextView logTextView = findViewById(R.id.resultButton);
+        logTextView.setText(event.toString());
     }
 }

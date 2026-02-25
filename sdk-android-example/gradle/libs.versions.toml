@@ -1,5 +1,5 @@
 [versions]
-agp = "8.12.0-alpha01"
+agp = "8.12.3"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
@@ -19,6 +19,3 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-
-#eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI2ODFjZmNlZDA2M2I1YjAwMDhhMDE5MTAifQ.wx5da5hEzTkxAhJIAvexi4-5sLu7wUAX1wMxyeG-e78
-#eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI2ODc2MWM2YjYxOWFjYTAwMDIwYmJhMTYifQ.JrrKtYCGsa7MU5S3_PuOeRlF5Wk39HAtEWY03nYxcHY

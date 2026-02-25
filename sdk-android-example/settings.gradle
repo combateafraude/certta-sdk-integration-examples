@@ -18,27 +18,10 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
 
-        // Caf Repository
         maven { url = uri("https://repo.combateafraude.com/android/release") }
-
-        // iProov Repository
         maven { url = uri("https://raw.githubusercontent.com/iProov/android/master/maven/") }
-
-        // FingerPrintJS Repository
         maven { setUrl("https://maven.fpregistry.io/releases") }
-
-        // JitPack
         maven { setUrl("https://jitpack.io") }
-
-        // Fortface Repository - required to use the PayFace provider
-        maven { url = uri("https://jitpack.io") }
-        maven { url = uri("https://maven.fpregistry.io/releases") }
-        maven {
-            url = uri("https://repo.combateafraude.com/android/release")
-            content {
-                includeGroup "io.caf.sdk"
-            }
-        }
         maven { url = uri("https://raw.githubusercontent.com/iProov/android/master/maven/") }
         maven {
             url = uri("https://cdn-fortface-sdk.fortface.com.br")
