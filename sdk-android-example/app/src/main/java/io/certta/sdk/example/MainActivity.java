@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements SdkExampleResultL
             return insets;
         });
 
-        SdkExampleConfig config = new SdkExampleConfig("", this);
+        SdkExampleConfig config = new SdkExampleConfig("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI2NGViYTFmYjY2ZmM4YjAwMDg5MjFjNjkifQ.bn9qdz7VUS3GdUjf7wbjlcE9J8uXm0qr6FS0X8gCWIY", this);
 
         Button button = findViewById(R.id.startSdkButton);
 
@@ -37,6 +37,6 @@ public class MainActivity extends AppCompatActivity implements SdkExampleResultL
     @Override
     public void onResult(CafUnifiedEvent event) {
         TextView logTextView = findViewById(R.id.resultButton);
-        logTextView.setText(event.toString());
+//        logTextView.setText(event.toString());
     }
 }

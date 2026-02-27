@@ -29,8 +29,9 @@ android {
 }
 
 dependencies {
-    implementation platform('io.caf.sdk:caf-sdk-bom:7.5.4')
-    implementation 'io.caf.sdk:caffaceliveness-lite'
+//    implementation platform('io.caf.sdk:caf-sdk-bom:7.5.4')
+    implementation 'io.caf.sdk:caffaceliveness-lite:4.3.6'
+//    implementation("io.caf.sdk:document-detector")
 
     implementation libs.appcompat
     implementation libs.material

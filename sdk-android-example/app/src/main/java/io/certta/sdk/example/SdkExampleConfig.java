@@ -1,6 +1,5 @@
 package io.certta.sdk.example;
 
-
 import static io.caf.sdk.caffaceliveness.CafFaceLivenessBuilderExtKt.setFaceLivenessConfig;
 
 import android.util.Log;
@@ -35,8 +34,7 @@ public class SdkExampleConfig {
     }
 
     public CafSdkProvider buildLiveness() {
-        CafSdkConfiguration sdkConfiguration = new CafSdkConfiguration(
-                /*presentationOrder*/ List.of(CafModuleType.FACE_LIVENESS),
+        CafSdkConfiguration sdkConfiguration = new CafSdkConfiguration(List.of(CafModuleType.FACE_LIVENESS, CafModuleType.FACE_LIVENESS),
                 /*colorConfig*/ null,
                 /*nextStepContent*/ null,
                 /*waitForAllServices*/ true,
@@ -55,7 +53,6 @@ public class SdkExampleConfig {
                 /*bridgeConfig*/ null
         );
         setFaceLivenessConfig(sdkConfiguration, cafFaceLivenessConfig);
-
         CafSdkProvider.Builder sdkBuilder = new CafSdkProvider.Builder(
                 /*mobileToken*/  appKey,        // Authentication token
                 /*personId*/  "person-id",              // User identifier
@@ -108,7 +105,8 @@ public class SdkExampleConfig {
             try {
                 mappedResponses.add(item.getModuleName() + " " + item.getSignedResponse());
             } catch (Exception e) {
-                mappedResponses.add(e.getMessage());
+//                mappedResponses.add(e.getMessage());
+                showLog("Success: " + e.getMessage());
 
             }
         });
