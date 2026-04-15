@@ -15,25 +15,24 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
-//        mavenLocal()
-//
-        maven { url = uri("https://repo.combateafraude.com/android/release") }
+
+//        maven { url = uri("https://repo.combateafraude.com/android/release") }
         maven { url = uri("https://raw.githubusercontent.com/iProov/android/master/maven/") }
-        maven { setUrl("https://maven.fpregistry.io/releases") }
-        maven { setUrl("https://jitpack.io") }
+        maven { url = uri("https://maven.fpregistry.io/releases") }
         maven { url = uri("https://raw.githubusercontent.com/iProov/android/master/maven/") }
-//        maven {
-//            url = uri("https://cdn-fortface-sdk.fortface.com.br")
-//            credentials(HttpHeaderCredentials.class) {
-//                name = "X-Sdk"
-//                value = "CAF"
-//            }
-//            authentication {
-//                create(HttpHeaderAuthentication.class)
-//            }
-//        }
+        maven {
+            url = uri("https://cdn-fortface-sdk.fortface.com.br")
+            credentials(HttpHeaderCredentials.class) {
+                name = "X-Sdk"
+                value = "CAF"
+            }
+            authentication {
+                create(HttpHeaderAuthentication.class)
+            }
+        }
     }
 }
 

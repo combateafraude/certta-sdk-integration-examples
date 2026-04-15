@@ -1,7 +1,7 @@
 package io.certta.sdk.example;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -10,9 +10,19 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import io.caf.sdk.commons.CafUnifiedEvent;
+import io.caf.sdk.certta_document_detector.config.CerttaDocumentSmartCapture;
+import io.caf.sdk.certta_document_detector.config.models.DocumentSmartCaptureConfig;
+import io.certta.Certta;
+import io.certta.config.CerttaConfiguration;
+import io.certta.document.CerttaDocumentDetector;
+import io.certta.document.DocumentDetectorConfiguration;
+import io.certta.liveness.CerttaLiveness;
+import io.certta.liveness.params.LivenessConfiguration;
 
-public class MainActivity extends AppCompatActivity implements SdkExampleResultListener {
+public class MainActivity extends AppCompatActivity {
+
+    public String mobileToken = "";
+    private TextView resultTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,18 +35,54 @@ public class MainActivity extends AppCompatActivity implements SdkExampleResultL
             return insets;
         });
 
-        SdkExampleConfig config = new SdkExampleConfig("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI2NGViYTFmYjY2ZmM4YjAwMDg5MjFjNjkifQ.bn9qdz7VUS3GdUjf7wbjlcE9J8uXm0qr6FS0X8gCWIY", this);
+        resultTextView = findViewById(R.id.resultTextView);
 
-        Button button = findViewById(R.id.startSdkButton);
+        var config = new CerttaConfiguration(
+                mobileToken,     // mobileToken
+                "user-id",      // userId
+                false            // securityEnabled
+        );
 
-        button.setOnClickListener(view -> {
-            config.buildLiveness().start(this.getApplicationContext());
+        Certta.getInstance().configure(this, config);
+
+        var button1 = findViewById(R.id.button1);
+        var button2 = findViewById(R.id.button2);
+        var button3 = findViewById(R.id.button3);
+
+        button1.setOnClickListener(v -> onButton1Click());
+        button2.setOnClickListener(v -> onButton2Click());
+        button3.setOnClickListener(v -> onButton3Click());
+
+        Certta.getInstance().addLogListener((s, s1) -> {
+            this.runOnUiThread(() -> resultTextView.setText(String.format("%s\n%s-%s", resultTextView.getText(), s, s1)));
         });
     }
 
-    @Override
-    public void onResult(CafUnifiedEvent event) {
-        TextView logTextView = findViewById(R.id.resultButton);
-//        logTextView.setText(event.toString());
+    @SuppressLint("RestrictedApi")
+    private void onButton3Click() {
+        var config = new DocumentSmartCaptureConfig();
+        CerttaDocumentSmartCapture.getInstance().open(config, documentDetectorEvent -> {
+            resultTextView.setText(String.format("%s\n%s", resultTextView.getText(), documentDetectorEvent));
+        });
+    }
+
+    private void onButton1Click() {
+        var livenessConfiguration = new LivenessConfiguration(
+                3,      // maxRetryAttempts
+                false,  // faceAuthEnabled
+                true,   // showLoading
+                true);    // useFaceLivenessUi
+        CerttaLiveness.getInstance().open(livenessConfiguration, livenessEvent -> {
+            resultTextView.setText(String.format("%s\n%s", resultTextView.getText(), livenessEvent));
+        });
+
+    }
+
+    @SuppressLint("RestrictedApi")
+    private void onButton2Click() {
+        var config = new DocumentDetectorConfiguration();
+        CerttaDocumentDetector.getInstance().open(config, documentDetectorEvent -> {
+            resultTextView.setText(String.format("%s\n%s", resultTextView.getText(), documentDetectorEvent));
+        });
     }
 }

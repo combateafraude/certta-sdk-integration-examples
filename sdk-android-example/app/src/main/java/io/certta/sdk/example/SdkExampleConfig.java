@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.List;
 
 import io.caf.sdk.caffaceliveness.domain.CafFaceLivenessConfig;
+import io.caf.sdk.commons.CafColorConfiguration;
 import io.caf.sdk.commons.CafEnvironment;
 import io.caf.sdk.commons.CafErrorType;
 import io.caf.sdk.commons.CafFailureType;
@@ -18,28 +19,23 @@ import io.caf.sdk.commons.CafUnifiedEvent;
 import io.caf.sdk.commons.CafUnifiedResponse;
 import kotlin.Unit;
 
-interface SdkExampleResultListener {
-    void onResult(CafUnifiedEvent event);
-}
-
 public class SdkExampleConfig {
     private final String TAG = "CerttaSdkEvent";
     String appKey;
-    SdkExampleResultListener resultListener;
 
-
-    SdkExampleConfig(String appKey, SdkExampleResultListener listener) {
+    SdkExampleConfig(String appKey) {
         this.appKey = appKey;
-        this.resultListener = listener;
     }
 
     public CafSdkProvider buildLiveness() {
-        CafSdkConfiguration sdkConfiguration = new CafSdkConfiguration(List.of(CafModuleType.FACE_LIVENESS, CafModuleType.FACE_LIVENESS),
-                /*colorConfig*/ null,
+        CafSdkConfiguration sdkConfiguration = new CafSdkConfiguration(
+                /*presentationOrder*/ List.of(CafModuleType.FACE_LIVENESS),
+                null,
+//                /*colorConfig*/  new CafColorConfiguration("#0000FF", "#00FF00", "#0000FF", "#0000FF", "#0000FF", "#0000FF", "#0000FF"),
                 /*nextStepContent*/ null,
                 /*waitForAllServices*/ true,
-                /*enableTransitionScreens*/ true
-//                /*enableSecurityModule*/ false
+                /*enableTransitionScreens*/ true,
+                /*enableSecurityModule*/ false
         );
 
         CafFaceLivenessConfig cafFaceLivenessConfig = new CafFaceLivenessConfig(
@@ -52,14 +48,15 @@ public class SdkExampleConfig {
                 /*maxRetryAttempts*/  3,           // Sets the number of times the retry screen will appear.
                 /*bridgeConfig*/ null
         );
+
         setFaceLivenessConfig(sdkConfiguration, cafFaceLivenessConfig);
+
         CafSdkProvider.Builder sdkBuilder = new CafSdkProvider.Builder(
                 /*mobileToken*/  appKey,        // Authentication token
                 /*personId*/  "person-id",              // User identifier
                 /*environment*/  CafEnvironment.PROD,   // Production environment
                 /*configuration*/  sdkConfiguration,    // Global configuration with module order and parameters
                 event -> {
-                    resultListener.onResult(event);
                     handleEvent(event);
                     return Unit.INSTANCE;
                 }  // Return of SDK events
@@ -101,16 +98,13 @@ public class SdkExampleConfig {
         List<CafUnifiedResponse> responses = event.getResponse();
 
         List<String> mappedResponses = List.of();
+        var result = new StringBuilder();
         responses.forEach(item -> {
-            try {
-                mappedResponses.add(item.getModuleName() + " " + item.getSignedResponse());
-            } catch (Exception e) {
-//                mappedResponses.add(e.getMessage());
-                showLog("Success: " + e.getMessage());
+            result.append(item.getModuleName()).append(" ").append(item.getSignedResponse());
 
-            }
         });
 
+//        mappedResponses.add(result.toString());
         showLog("Success: " + mappedResponses);
     }
 
