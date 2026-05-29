@@ -1,0 +1,20 @@
+PODS:
+  - CafSDKiOS/CafFaceLivenessLite (7.0.0):
+    - iProov (= 13.1.0)
+  - iProov (13.1.0)
+
+DEPENDENCIES:
+  - CafSDKiOS/CafFaceLivenessLite (= 7.0.0)
+
+SPEC REPOS:
+  trunk:
+    - CafSDKiOS
+    - iProov
+
+SPEC CHECKSUMS:
+  CafSDKiOS: 3e159f04543e2b43828514f1db9d591217600ea4
+  iProov: 66e7b060aac7843c6961ea5d9295781963574462
+
+PODFILE CHECKSUM: f190338e0388e8951b087b943149a88a0650ca9e
+
+COCOAPODS: 1.16.2
