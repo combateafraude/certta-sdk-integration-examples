@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -12,31 +13,46 @@ android {
         targetSdk 36
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+//        debug {
+//            minifyEnabled true
+//            shrinkResources true
+//        }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
 }
 
 dependencies {
-    implementation platform('io.caf.sdk:caf-sdk-bom:7.8.0')
-    // If you use Protobuf JavaLite, you should add that instead of the above dependency
-    implementation 'io.caf.sdk:caffaceliveness-lite'
+
+    implementation platform('io.caf.sdk:caf-sdk-bom:7.14.0')
+    implementation 'io.caf.sdk:caffaceliveness'
+    implementation 'io.caf.sdk:caffaceliveness-ui'
+    implementation 'io.caf.sdk:caffaceliveness-providers-iproov-lite'
+    implementation 'io.caf.sdk:caffaceliveness-providers-payface'
+    implementation "io.caf.sdk:document-detector"
+
+    implementation("io.caf.sdk:caf-face-liveness-lite:7.14.0")
 
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+    implementation libs.core.ktx
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
