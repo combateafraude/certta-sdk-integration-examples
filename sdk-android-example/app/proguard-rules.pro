@@ -137,8 +137,6 @@
 # Preserve Kotlin and kotlinx classes.
 -keep class kotlin.** { *; }
 -keep class kotlinx.** { *; }
-
-# Lint rules included in the SDK are not needed at runtime.
 -dontwarn com.android.tools.lint.**
 -dontwarn io.caf.sdk.common.jvmshared.lint.**
 ### END CAF - Combate a Fraude ##################################################

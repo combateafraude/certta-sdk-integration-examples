@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -16,6 +17,10 @@ android {
     }
 
     buildTypes {
+//        debug {
+//            minifyEnabled true
+//            shrinkResources true
+//        }
         release {
             minifyEnabled true
             shrinkResources true
@@ -27,24 +32,27 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
 }
 
 dependencies {
-    implementation platform('io.caf.sdk:caf-sdk-bom:7.12.0-rc.1')
-//    implementation 'io.caf.sdk:caf-face-liveness-lite'
+
+    implementation platform('io.caf.sdk:caf-sdk-bom:7.14.0')
     implementation 'io.caf.sdk:caffaceliveness'
-    implementation 'io.caf.sdk:caffaceliveness-providers-iproov-lite'
     implementation 'io.caf.sdk:caffaceliveness-ui'
-    implementation 'io.caf.sdk:document-smart-capture'
-//
-//    implementation("io.caf.sdk:caffaceliveness-providers-iproov-lite:7.9.0-45307fbf")
-//    implementation 'io.caf.sdk:caf-sdk-commons'
-    implementation("io.caf.sdk:document-detector")
+    implementation 'io.caf.sdk:caffaceliveness-providers-iproov-lite'
+    implementation 'io.caf.sdk:caffaceliveness-providers-payface'
+    implementation "io.caf.sdk:document-detector"
+
+    implementation("io.caf.sdk:caf-face-liveness-lite:7.14.0")
 
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
+    implementation libs.core.ktx
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
