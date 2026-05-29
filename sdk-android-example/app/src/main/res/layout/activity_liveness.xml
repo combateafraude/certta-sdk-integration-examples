@@ -8,7 +8,7 @@
     android:paddingHorizontal="24dp"
     android:orientation="vertical"
     android:padding="24dp"
-    tools:context=".MainActivity">
+    tools:context=".LivenessActivity">
 
     <Button
         android:id="@+id/button1"
